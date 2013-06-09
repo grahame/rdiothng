@@ -81,15 +81,18 @@ if __name__ == '__main__':
         else:
             no_albums.append(artist)
 
-    with codecs.open(sys.argv[3], 'r', 'utf-8') as fd:
-        artists = []
-        for artist in (t.strip() for t in fd):
-            if artist.startswith('#'):
-                continue
-            artists.append(artist)
-        for idx, artist in enumerate(artists):
-            print "(%d/%d) %s" % (idx+1, len(artists), artist)
-            add_artist_albums(artist.encode('utf-8'))
+    try:
+        with codecs.open(sys.argv[3], 'r', 'utf-8') as fd:
+            artists = []
+            for artist in (t.strip() for t in fd):
+                if artist.startswith('#'):
+                    continue
+                artists.append(artist)
+            for idx, artist in enumerate(artists):
+                print "(%d/%d) %s" % (idx+1, len(artists), artist)
+                add_artist_albums(artist.encode('utf-8'))
+    except KeyboardInterrupt:
+        pass
     print "These queries failed:"
     for missed in no_matches:
         print "   %s" % missed
